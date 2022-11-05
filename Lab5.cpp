@@ -1,20 +1,60 @@
-﻿// Lab5.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+﻿#include <iostream>
+#include <ostream>
+#include <conio.h>
+#include <math.h>
 
-#include <iostream>
+using namespace std;
+
+class Triangle // початок класу
+{
+	double a, b, c; // сторони
+	double s; // площа
+public:
+	Triangle() // конструктор без параметра зі значенням 0
+	{
+		a, b, c, s = 0;
+	}
+	Triangle(double a, double b, double c) // конструктор з параметром
+	{
+		double p;
+		this->a = a;
+		this->b = b;
+		this->c = c;
+		p = (a + b + c) / 2;
+		s = sqrt(p * (p - a) * (p - b) * (p - c));
+	}
+	Triangle operator +(Triangle &tr) // операція перевантаження"+" яка створює новий трикутник, сторони якого будуть сумами сторін відповідних трикутників
+	{
+		Triangle t (a + tr.a, b + tr.b, c + tr.c);
+		return t;
+	}
+	Triangle operator ++ (int notused) // операція перевантаження "++"  збільшує всі стронони трикутника на одиницю
+	{
+		Triangle t = *this;
+		a++;
+		b++;
+		c++;
+		return t;
+	}
+	friend ostream& operator << (ostream& t, Triangle& tr); // операція "<<" виводить на екран значення трьох сторін і площі трикутника
+};
+
+ostream& operator << (ostream& t, Triangle& tr) // операція "<<" виводить на екран значення трьох сторін і площі трикутника
+{
+	t << "a = " << tr.a << "b=" << tr.b << "c = " << tr.c << "s = " << tr.s << endl;
+	return t;
+}
+
+
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	Triangle a(3, 6, 7), b(5, 6, 9);
+	Triangle x = a + b;
+	cout << a << b;
+	a = b++;
+	cout << a;
+	cout << b;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
